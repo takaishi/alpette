@@ -1,11 +1,11 @@
 package server
 
 import (
-	"log"
-	"net"
-	"google.golang.org/grpc"
 	pb "github.com/takaishi/alpette/protocol"
 	"golang.org/x/net/context"
+	"google.golang.org/grpc"
+	"log"
+	"net"
 )
 
 type taskService struct {
@@ -13,6 +13,7 @@ type taskService struct {
 }
 
 func (ts *taskService) Run(c context.Context, p *pb.Task) (*pb.ResponseType, error) {
+	log.Printf("[DEBUG] task: %#v\n", p)
 	return new(pb.ResponseType), nil
 }
 

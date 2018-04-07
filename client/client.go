@@ -1,10 +1,10 @@
 package client
 
 import (
-	"log"
-	"google.golang.org/grpc"
-	pb "github.com/takaishi/alpette/protocol"
 	"context"
+	pb "github.com/takaishi/alpette/protocol"
+	"google.golang.org/grpc"
+	"log"
 )
 
 func Start() error {
