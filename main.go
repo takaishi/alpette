@@ -35,8 +35,15 @@ func main() {
 	app.Commands = []cli.Command{
 		{
 			Name: "server",
+			Flags: []cli.Flag{
+				cli.StringFlag{
+					Name:  "conf, c",
+					Value: "/path/to/config",
+					Usage: "set path to config file.",
+				},
+			},
 			Action: func(c *cli.Context) error {
-				return server.Start()
+				return server.Start(c)
 			},
 		},
 		{

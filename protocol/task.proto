@@ -11,4 +11,5 @@ message ResponseType{
 
 message Task {
     string name = 1;
+    string command = 2;
 }
