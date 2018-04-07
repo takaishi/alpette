@@ -48,8 +48,15 @@ func main() {
 		},
 		{
 			Name: "run",
+			Flags: []cli.Flag{
+				cli.StringFlag{
+					Name:  "task",
+					Value: "task",
+					Usage: " set to exec task name.",
+				},
+			},
 			Action: func(c *cli.Context) error {
-				return client.Start()
+				return client.Start(c)
 			},
 		},
 	}

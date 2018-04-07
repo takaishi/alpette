@@ -3,11 +3,12 @@ package client
 import (
 	"context"
 	pb "github.com/takaishi/alpette/protocol"
+	"github.com/urfave/cli"
 	"google.golang.org/grpc"
 	"log"
 )
 
-func Start() error {
+func Start(c *cli.Context) error {
 	log.Println("[DEBUG] client")
 	opts := []grpc.DialOption{
 		grpc.WithInsecure(),
@@ -20,7 +21,7 @@ func Start() error {
 
 	client := pb.NewTaskServiceClient(conn)
 	task := &pb.Task{
-		Name: "foo",
+		Name: c.String("task"),
 	}
 	_, err = client.Run(context.Background(), task)
 	return err
