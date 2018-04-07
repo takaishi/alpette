@@ -4,6 +4,7 @@ import (
 	"github.com/urfave/cli"
 	"log"
 	"os"
+	"github.com/takaishi/alpette/server"
 )
 
 func main() {
@@ -13,6 +14,7 @@ func main() {
 		{
 			Name: "server",
 			Action: func(c *cli.Context) error {
+				server.Start()
 				return nil
 			},
 		},
