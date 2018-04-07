@@ -35,8 +35,7 @@ func main() {
 		{
 			Name: "server",
 			Action: func(c *cli.Context) error {
-				server.Start()
-				return nil
+				return server.Start()
 			},
 		},
 		{
