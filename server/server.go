@@ -1,7 +1,9 @@
 package server
 
-import "fmt"
+import (
+	"log"
+)
 
 func Start() {
-	fmt.Println("server")
+	log.Println("[DEBUG] server")
 }
