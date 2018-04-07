@@ -1,11 +1,12 @@
 package main
 
 import (
+	"github.com/hashicorp/logutils"
+	"github.com/takaishi/alpette/client"
+	"github.com/takaishi/alpette/server"
 	"github.com/urfave/cli"
 	"log"
 	"os"
-	"github.com/takaishi/alpette/server"
-	"github.com/hashicorp/logutils"
 )
 
 func logLevel() string {
@@ -17,11 +18,11 @@ func logLevel() string {
 	}
 }
 
-func logOutput() (*logutils.LevelFilter){
+func logOutput() *logutils.LevelFilter {
 	filter := &logutils.LevelFilter{
-		Levels: []logutils.LogLevel{"DEBUG", "WARN", "ERROR"},
+		Levels:   []logutils.LogLevel{"DEBUG", "WARN", "ERROR"},
 		MinLevel: logutils.LogLevel(logLevel()),
-		Writer: os.Stderr,
+		Writer:   os.Stderr,
 	}
 
 	return filter
@@ -41,7 +42,7 @@ func main() {
 		{
 			Name: "run",
 			Action: func(c *cli.Context) error {
-				return nil
+				return client.Start()
 			},
 		},
 	}
