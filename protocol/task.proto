@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package proto;
+
+service TaskService {
+    rpc Run(Task) returns (ResponseType) {};
+}
+
+message ResponseType{
+}
+
+message Task {
+    string name = 1;
+}
