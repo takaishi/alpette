@@ -68,20 +68,20 @@ func (tc *stnsTC) ClientHandshake(ctx context.Context, addr string, rawConn net.
 	buf := make([]byte, 2014)
 	n, err := rawConn.Read(buf)
 	if err != nil {
-		fmt.Printf("Read error: %s\n", err)
+		log.Printf("[ERROR] Read error: %s\n", err)
 		return nil, nil, err
 	}
 	log.Printf("[DEBUG] privateKeyPath: %s\n", privateKeyPath())
 	log.Printf("[DEBUG] buf: %s\n", string(buf[:n]))
 	key, err := tc.readPrivateKey(privateKeyPath())
 	if err != nil {
-		fmt.Printf("Failed to read private key: %s\n", err)
+		log.Printf("[ERROR] Failed to read private key: %s\n", err)
 		return nil, nil, err
 	}
 
 	decrypted, err := tc.Decrypt(string(buf[:n]), key)
 	if err != nil {
-		fmt.Printf("Failed to decrypt: %s\n", err)
+		log.Printf("[ERROR] Failed to decrypt: %s\n", err)
 		return nil, nil, err
 	}
 	h := sha256.Sum256([]byte(decrypted))
@@ -91,15 +91,15 @@ func (tc *stnsTC) ClientHandshake(ctx context.Context, addr string, rawConn net.
 	r := make([]byte, 64)
 	n, err = rawConn.Read(r)
 	if err != nil {
-		fmt.Printf("Read error: %s\n", err)
+		log.Printf("[ERROR] Read error: %s\n", err)
 		return nil, nil, err
 	}
 	r = r[:n]
 	if string(r) != "ok" {
-		fmt.Println("Failed to authenticate")
+		log.Println("[ERROR] Failed to authenticate")
 		return nil, nil, errors.New("Failed to authenticate")
 	} else {
-		fmt.Println("success to authenticate")
+		log.Println("[INFO] success to authenticate")
 	}
 
 	return rawConn, nil, err
@@ -161,10 +161,10 @@ func (tc *stnsTC) ServerHandshake(rawConn net.Conn) (_ net.Conn, _ credentials.A
 	buf = buf[:n]
 	if strings.TrimRight(string(buf), "\n") == fmt.Sprintf("%x", h) {
 		rawConn.Write([]byte("ok"))
-		fmt.Println("Success!!!")
+		log.Println("[INFO] Success!!!")
 	} else {
 		rawConn.Write([]byte("ng"))
-		fmt.Println("Failed!!!")
+		log.Println("[INFO] Failed!!!")
 		return nil, nil, errors.New(fmt.Sprintf("Failed to authenticate: invalid key"))
 	}
 
