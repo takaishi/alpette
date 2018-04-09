@@ -11,6 +11,7 @@ import (
 	"log"
 	"net"
 	"os/exec"
+	"fmt"
 )
 
 type taskService struct {
@@ -49,7 +50,7 @@ func Start(c *cli.Context) error {
 		return err
 	}
 
-	lis, err := net.Listen("tcp", ":11111")
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%s", c.String("port")))
 	if err != nil {
 		return err
 	}

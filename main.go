@@ -41,6 +41,11 @@ func main() {
 					Value: "/path/to/config",
 					Usage: "set path to config file.",
 				},
+				cli.StringFlag{
+					Name: "port",
+					Value: "11111",
+					Usage: "Sets the gRPC port to listen on.",
+				},
 			},
 			Action: func(c *cli.Context) error {
 				return server.Start(c)
