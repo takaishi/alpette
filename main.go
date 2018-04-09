@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/hashicorp/logutils"
 	"github.com/takaishi/alpette/client"
 	"github.com/takaishi/alpette/server"
@@ -42,9 +43,24 @@ func main() {
 					Usage: "set path to config file.",
 				},
 				cli.StringFlag{
-					Name: "port",
+					Name:  "port",
 					Value: "11111",
 					Usage: "Sets the gRPC port to listen on.",
+				},
+				cli.StringFlag{
+					Name:  "stns-address",
+					Value: "127.0.0.1",
+					Usage: "Set the STNS address.",
+				},
+				cli.StringFlag{
+					Name:  "stns-port",
+					Value: "1104",
+					Usage: "Set the STNS port.",
+				},
+				cli.StringFlag{
+					Name:  "auth",
+					Value: "insecure",
+					Usage: "Set the authentication method.",
 				},
 			},
 			Action: func(c *cli.Context) error {
@@ -60,14 +76,24 @@ func main() {
 					Usage: " set to exec task name.",
 				},
 				cli.StringFlag{
-					Name: "server-host",
+					Name:  "server-host",
 					Value: "localhost",
 					Usage: "alpette server host",
 				},
 				cli.StringFlag{
-					Name: "server-port",
+					Name:  "server-port",
 					Value: "11111",
 					Usage: "alpette server port",
+				},
+				cli.StringFlag{
+					Name:  "user, u",
+					Value: os.Getenv("USER"),
+					Usage: "Set username for authentication.",
+				},
+				cli.StringFlag{
+					Name:  "identity-file, i",
+					Value: fmt.Sprintf("%s/.ssh/id_rsa", os.Getenv("HOME")),
+					Usage: "Set identity (private key) file for authentication.",
 				},
 			},
 			Action: func(c *cli.Context) error {

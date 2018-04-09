@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	"github.com/mattn/go-shellwords"
 	pb "github.com/takaishi/alpette/protocol"
 	"github.com/urfave/cli"
@@ -11,7 +12,7 @@ import (
 	"log"
 	"net"
 	"os/exec"
-	"fmt"
+	"github.com/takaishi/alpette/credentials/stns"
 )
 
 type taskService struct {
@@ -55,7 +56,8 @@ func Start(c *cli.Context) error {
 		return err
 	}
 
-	server := grpc.NewServer()
+	stnsTC := stns.NewServerCreds(c.String("stns-address"), c.String("stns-port"))
+	server := grpc.NewServer(grpc.Creds(stnsTC))
 	ts := taskService{tasks: tasks}
 	pb.RegisterTaskServiceServer(server, &ts)
 	return server.Serve(lis)

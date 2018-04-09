@@ -2,17 +2,19 @@ package client
 
 import (
 	"context"
+	"fmt"
 	pb "github.com/takaishi/alpette/protocol"
 	"github.com/urfave/cli"
 	"google.golang.org/grpc"
 	"log"
-	"fmt"
+	"github.com/takaishi/alpette/credentials/stns"
 )
 
 func Start(c *cli.Context) error {
 	log.Println("[DEBUG] client")
+	stnsTC := stns.NewClientCreds()
 	opts := []grpc.DialOption{
-		grpc.WithInsecure(),
+		grpc.WithTransportCredentials(stnsTC),
 	}
 	conn, err := grpc.Dial(fmt.Sprintf("%s:%s", c.String("server-host"), c.String("server-port")), opts...)
 	if err != nil {
