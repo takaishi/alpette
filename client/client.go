@@ -6,6 +6,7 @@ import (
 	"github.com/urfave/cli"
 	"google.golang.org/grpc"
 	"log"
+	"fmt"
 )
 
 func Start(c *cli.Context) error {
@@ -13,7 +14,7 @@ func Start(c *cli.Context) error {
 	opts := []grpc.DialOption{
 		grpc.WithInsecure(),
 	}
-	conn, err := grpc.Dial("127.0.0.1:11111", opts...)
+	conn, err := grpc.Dial(fmt.Sprintf("%s:%s", c.String("server-host"), c.String("server-port")), opts...)
 	if err != nil {
 		return err
 	}

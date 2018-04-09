@@ -54,6 +54,16 @@ func main() {
 					Value: "task",
 					Usage: " set to exec task name.",
 				},
+				cli.StringFlag{
+					Name: "server-host",
+					Value: "localhost",
+					Usage: "alpette server host",
+				},
+				cli.StringFlag{
+					Name: "server-port",
+					Value: "11111",
+					Usage: "alpette server port",
+				},
 			},
 			Action: func(c *cli.Context) error {
 				return client.Start(c)
