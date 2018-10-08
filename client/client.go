@@ -30,7 +30,7 @@ func Start(c *cli.Context) error {
 	if err != nil {
 		return err
 	}
-	fmt.Printf("%s", resp)
+	fmt.Printf("%s", resp.Body)
 
 	return nil
 }
