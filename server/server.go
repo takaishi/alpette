@@ -7,20 +7,19 @@ import (
 	"github.com/urfave/cli"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
-	"gopkg.in/yaml.v2"
-	"io/ioutil"
 	"log"
 	"net"
 	"os/exec"
 	"github.com/takaishi/alpette/credentials/stns"
+	"github.com/BurntSushi/toml"
 )
 
 type taskService struct {
-	tasks []*pb.Task
+	Tasks []*pb.Task
 }
 
 func (ts *taskService) Run(c context.Context, p *pb.Task) (*pb.ResponseType, error) {
-	for _, task := range ts.tasks {
+	for _, task := range ts.Tasks {
 		if task.Name == p.Name {
 			cmds, err := shellwords.Parse(task.Command)
 			if err != nil {
@@ -41,12 +40,8 @@ func (ts *taskService) Run(c context.Context, p *pb.Task) (*pb.ResponseType, err
 func Start(c *cli.Context) error {
 	log.Println("[DEBUG] server")
 
-	raw, err := ioutil.ReadFile(c.String("conf"))
-	if err != nil {
-		return err
-	}
-	var tasks []*pb.Task
-	err = yaml.Unmarshal(raw, &tasks)
+	var ts taskService
+	_, err := toml.DecodeFile(c.String("conf"), &ts)
 	if err != nil {
 		return err
 	}
@@ -58,7 +53,6 @@ func Start(c *cli.Context) error {
 
 	stnsTC := stns.NewServerCreds(c.String("stns-address"), c.String("stns-port"))
 	server := grpc.NewServer(grpc.Creds(stnsTC))
-	ts := taskService{tasks: tasks}
 	pb.RegisterTaskServiceServer(server, &ts)
 	return server.Serve(lis)
 }

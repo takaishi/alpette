@@ -1,4 +1,5 @@
 cloud.google.com/go v0.26.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
+github.com/BurntSushi/toml v0.3.0 h1:e1/Ivsx3Z0FVTV0NSOv/aVgbUWyQuzj7DDnFblkRvsY=
 github.com/BurntSushi/toml v0.3.0/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/STNS/STNS v1.0.0 h1:oUV4TxrBU5TaDzEvf2GcTNdI7z4WVg01eZn99h/44fE=
 github.com/STNS/STNS v1.0.0/go.mod h1:wHKCgwizrdY8FmPHX+AR7Pi86swrsgZAZyMj9Wn6UgE=

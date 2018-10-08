@@ -1,6 +1,7 @@
 module github.com/takaishi/alpette
 
 require (
+	github.com/BurntSushi/toml v0.3.0
 	github.com/STNS/STNS v1.0.0
 	github.com/golang/protobuf v1.2.0
 	github.com/hashicorp/logutils v1.0.0

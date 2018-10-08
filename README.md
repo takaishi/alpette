@@ -5,10 +5,13 @@
 
 ```
 $ cat /etc/alpette/alpette.conf
-- foo
-  command: echo this is foo
-- bar
-  command: echo this is bar
+[[tasks]]
+name = "foo"
+command = "echo this is foo"
+
+[[tasks]]
+name = "bar"
+command = "echo this is bar"
 ```
 
 ```
