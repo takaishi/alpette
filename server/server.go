@@ -19,6 +19,7 @@ type taskService struct {
 }
 
 func (ts *taskService) Run(c context.Context, p *pb.Task) (*pb.ResponseType, error) {
+	var resp pb.ResponseType
 	for _, task := range ts.Tasks {
 		if task.Name == p.Name {
 			cmds, err := shellwords.Parse(task.Command)
@@ -31,10 +32,11 @@ func (ts *taskService) Run(c context.Context, p *pb.Task) (*pb.ResponseType, err
 			if err != nil {
 				return nil, err
 			}
+			resp.Body = string(out)
 			log.Printf("[INFO] result: %s\n", out)
 		}
 	}
-	return new(pb.ResponseType), nil
+	return &resp, nil
 }
 
 func Start(c *cli.Context) error {

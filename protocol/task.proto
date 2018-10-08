@@ -7,6 +7,7 @@ service TaskService {
 }
 
 message ResponseType{
+    string body = 1;
 }
 
 message Task {

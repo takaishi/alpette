@@ -26,6 +26,11 @@ func Start(c *cli.Context) error {
 	task := &pb.Task{
 		Name: c.String("task"),
 	}
-	_, err = client.Run(context.Background(), task)
-	return err
+	resp, err := client.Run(context.Background(), task)
+	if err != nil {
+		return err
+	}
+	fmt.Printf("%s", resp)
+
+	return nil
 }
