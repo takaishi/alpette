@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/STNS/STNS/stns"
+	"github.com/STNS/STNS/model"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc/credentials"
 	"io/ioutil"
@@ -105,25 +105,16 @@ func (tc *stnsTC) ClientHandshake(ctx context.Context, addr string, rawConn net.
 	return rawConn, nil, err
 }
 
-type v2Metadata struct {
-	APIVersion float64 `json:"api_version"`
-	Result     string  `json:"result"`
-}
-type UserResponse struct {
-	Metadata v2Metadata      `json:"metadata"`
-	Items    stns.Attributes `json:"items"`
-}
-
 func (tc *stnsTC) getPubKeyFromSTNS(name string) ([]byte, error) {
-	var user_resp UserResponse
+	var user_resp []*model.User
 
-	resp, err := http.Get(fmt.Sprintf("http://localhost:1104/v2/user/name/%s", name))
+	resp, err := http.Get(fmt.Sprintf("http://localhost:1104/v1/users?name=%s", name))
 	if err != nil {
 		return nil, err
 	}
 	body, err := ioutil.ReadAll(resp.Body)
 	json.Unmarshal(body, &user_resp)
-	return []byte(user_resp.Items[name].User.Keys[0]), nil
+	return []byte(user_resp[0].Keys[0]), nil
 }
 
 func (tc *stnsTC) ServerHandshake(rawConn net.Conn) (_ net.Conn, _ credentials.AuthInfo, err error) {
