@@ -13,9 +13,21 @@ import (
 func Start(c *cli.Context) error {
 	log.Println("[DEBUG] client")
 	stnsTC := stns.NewClientCreds()
-	opts := []grpc.DialOption{
-		grpc.WithTransportCredentials(stnsTC),
+	var opts []grpc.DialOption
+
+	authType := c.String("auth-type")
+	if authType == "insecure" {
+		opts = []grpc.DialOption{
+			grpc.WithInsecure(),
+		}
 	}
+
+	if authType == "stns" {
+		opts = []grpc.DialOption{
+			grpc.WithTransportCredentials(stnsTC),
+		}
+	}
+
 	conn, err := grpc.Dial(fmt.Sprintf("%s:%s", c.String("server-host"), c.String("server-port")), opts...)
 	if err != nil {
 		return err

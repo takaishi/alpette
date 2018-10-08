@@ -15,6 +15,7 @@ import (
 )
 
 type taskService struct {
+	AuthType string `toml:"authType"`
 	Tasks []*pb.Task
 }
 
@@ -43,6 +44,7 @@ func Start(c *cli.Context) error {
 	log.Println("[DEBUG] server")
 
 	var ts taskService
+	var server *grpc.Server
 	_, err := toml.DecodeFile(c.String("conf"), &ts)
 	if err != nil {
 		return err
@@ -53,8 +55,16 @@ func Start(c *cli.Context) error {
 		return err
 	}
 
-	stnsTC := stns.NewServerCreds(c.String("stns-address"), c.String("stns-port"))
-	server := grpc.NewServer(grpc.Creds(stnsTC))
+	if ts.AuthType == "STNS" {
+		log.Println("[DEBUG] authType is STNS.")
+		stnsTC := stns.NewServerCreds(c.String("stns-address"), c.String("stns-port"))
+		server = grpc.NewServer(grpc.Creds(stnsTC))
+	}
+
+	if ts.AuthType == "insecure" {
+		log.Println("[DEBUG] authType is insecure.")
+		server = grpc.NewServer()
+	}
 	pb.RegisterTaskServiceServer(server, &ts)
 	return server.Serve(lis)
 }

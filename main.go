@@ -95,6 +95,11 @@ func main() {
 					Value: fmt.Sprintf("%s/.ssh/id_rsa", os.Getenv("HOME")),
 					Usage: "Set identity (private key) file for authentication.",
 				},
+				cli.StringFlag{
+					Name:  "auth-type",
+					Value: "insecure",
+					Usage: "Set the authentication method.",
+				},
 			},
 			Action: func(c *cli.Context) error {
 				return client.Start(c)
