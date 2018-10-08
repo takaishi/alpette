@@ -99,7 +99,7 @@ func (tc *stnsTC) ClientHandshake(ctx context.Context, addr string, rawConn net.
 		log.Println("[ERROR] Failed to authenticate")
 		return nil, nil, errors.New("Failed to authenticate")
 	} else {
-		log.Println("[INFO] success to authenticate")
+		log.Println("[DEBUG] success to authenticate")
 	}
 
 	return rawConn, nil, err
