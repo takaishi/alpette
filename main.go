@@ -71,34 +71,34 @@ func main() {
 			Name: "run",
 			Flags: []cli.Flag{
 				cli.StringFlag{
-					Name:  "task",
+					Name:  "task, t",
 					Value: "task",
-					Usage: " set to exec task name.",
+					Usage: "Exec task name.",
 				},
 				cli.StringFlag{
-					Name:  "server-host",
+					Name:  "host, H",
 					Value: "localhost",
 					Usage: "alpette server host",
 				},
 				cli.StringFlag{
-					Name:  "server-port",
+					Name:  "port, p",
 					Value: "11111",
 					Usage: "alpette server port",
 				},
 				cli.StringFlag{
 					Name:  "user, u",
 					Value: os.Getenv("USER"),
-					Usage: "Set username for authentication.",
+					Usage: "Username for authentication. This flag used when auth-type is stns.",
 				},
 				cli.StringFlag{
 					Name:  "identity-file, i",
 					Value: fmt.Sprintf("%s/.ssh/id_rsa", os.Getenv("HOME")),
-					Usage: "Set identity (private key) file for authentication.",
+					Usage: "Identity (private key) file for authentication. This flag used when auth-type is stns.",
 				},
 				cli.StringFlag{
-					Name:  "auth-type",
+					Name:  "auth-type, a",
 					Value: "insecure",
-					Usage: "Set the authentication method.",
+					Usage: "Authentication method. Available value is stns and insecure.",
 				},
 			},
 			Action: func(c *cli.Context) error {
