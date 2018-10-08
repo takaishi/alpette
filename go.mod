@@ -5,6 +5,7 @@ require (
 	github.com/STNS/STNS v1.0.0
 	github.com/golang/protobuf v1.2.0
 	github.com/hashicorp/logutils v1.0.0
+	github.com/jarcoal/httpmock v0.0.0-20180424175123-9c70cfe4a1da // indirect
 	github.com/mattn/go-shellwords v1.0.3
 	github.com/urfave/cli v1.20.0
 	golang.org/x/net v0.0.0-20181005035420-146acd28ed58
