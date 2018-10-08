@@ -108,7 +108,7 @@ func (tc *stnsTC) ClientHandshake(ctx context.Context, addr string, rawConn net.
 func (tc *stnsTC) getPubKeyFromSTNS(name string) ([]byte, error) {
 	var user_resp []*model.User
 
-	resp, err := http.Get(fmt.Sprintf("http://localhost:1104/v1/users?name=%s", name))
+	resp, err := http.Get(fmt.Sprintf("http://%s:%s/v1/users?name=%s", name, tc.stnsAddress, tc.stnsPort))
 	if err != nil {
 		return nil, err
 	}
