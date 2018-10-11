@@ -12,7 +12,7 @@ import (
 
 func Start(c *cli.Context) error {
 	log.Println("[DEBUG] client")
-	stnsTC := stns.NewClientCreds()
+	stnsTC := stns.NewClientCreds(c.String("user"))
 	var opts []grpc.DialOption
 
 	authType := c.String("auth-type")
@@ -28,7 +28,7 @@ func Start(c *cli.Context) error {
 		}
 	}
 
-	conn, err := grpc.Dial(fmt.Sprintf("%s:%s", c.String("server-host"), c.String("server-port")), opts...)
+	conn, err := grpc.Dial(fmt.Sprintf("%s:%s", c.String("host"), c.String("port")), opts...)
 	if err != nil {
 		return err
 	}

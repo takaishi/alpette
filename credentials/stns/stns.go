@@ -21,6 +21,8 @@ type stnsTC struct {
 	info *credentials.ProtocolInfo
 	stnsAddress string
 	stnsPort string
+
+	clientUserName string
 }
 
 const rs3Letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -31,13 +33,6 @@ func (tc *stnsTC) randString() string {
 		b[i] = rs3Letters[int(rand.Int63()%int64(len(rs3Letters)))]
 	}
 	return string(b)
-}
-
-func getUsername() (string, error) {
-	if os.Getenv("SSH_USER") == "" {
-		return "", errors.New("require SSH_USER")
-	}
-	return os.Getenv("SSH_USER"), nil
 }
 
 func privateKeyPath() string {
@@ -57,7 +52,7 @@ func publicKeyPath() string {
 }
 
 func (tc *stnsTC) ClientHandshake(ctx context.Context, addr string, rawConn net.Conn) (_ net.Conn, _ credentials.AuthInfo, err error) {
-	username, err := getUsername()
+	username := tc.clientUserName
 	log.Printf("[DEBUG] username: %s\n", string(username))
 
 	if err != nil {
@@ -188,11 +183,12 @@ func NewServerCreds(stnsAddress string, stnsPort string) credentials.TransportCr
 	}
 }
 
-func NewClientCreds() credentials.TransportCredentials {
+func NewClientCreds(clientUserName string) credentials.TransportCredentials {
 	return &stnsTC{
 		info: &credentials.ProtocolInfo{
 			SecurityProtocol: "ssh",
 			SecurityVersion:  "1.0",
 		},
+		clientUserName: clientUserName,
 	}
 }
